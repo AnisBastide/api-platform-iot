@@ -8,27 +8,26 @@ admin.initializeApp({
 const db = admin.firestore();
 
 
-module.exports.registerSensor = async function (address) {
+module.exports.registerBeerTap = async function (address) {
 
-  const docRef = db.collection('sensors').doc(address);
+  const docRef = db.collection('beerTaps').doc(address);
 
-  const sensor = {
+  const beerTap = {
     address: address,
     date: Date.now(),
   }
 
   await docRef.get().then((snapshotDoc)=> {
     if (!snapshotDoc.exists)
-      docRef.set(sensor);
+      docRef.set(beerTap);
     else
-      docRef.update(sensor);
+      docRef.update(beerTap);
   })
 }
 
 module.exports.registerSample = async function (address, sample) {
 
-  const docRef = db.collection('sensors').doc(address)
-    .collection('samples').doc(Date.now().toString());
+  const docRef = db.collection("beerTaps").doc(address).collection("samples").doc(Date.now().toString());
 
   const data = {
     value: sample,
@@ -36,14 +35,12 @@ module.exports.registerSample = async function (address, sample) {
   }
   await docRef.set(data);
 
-
 }
 
-module.exports.listSensors = function () {
+module.exports.listBeerTaps = function () {
 
-  const docRef = db.collection('sensors');
+  const docRef = db.collection('beerTaps');
 
   return docRef.get()
 
 }
-
