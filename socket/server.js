@@ -113,5 +113,7 @@ xbeeAPI.parser.on("data", function (frame) {
 });
 parser.on("data",async function(data){
   console.log(data)
-  await storage.registerSample('0013a20041c3475c',data)
+  if(data != 0){
+    await storage.registerSample('0013a20041c3475c',data);
+  }
 })
